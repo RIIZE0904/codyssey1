@@ -1293,14 +1293,7 @@ bind mount success
 
 ## 14. 재현 방법
 
-README만 보고도 같은 결과를 확인할 수 있도록 아래 순서로 진행하면 된다.
 
-### 저장소 클론
-
-```bash
-git clone https://github.com/[github-id]/[repository-name].git
-cd [repository-name]
-```
 
 ### 커스텀 이미지 빌드
 
