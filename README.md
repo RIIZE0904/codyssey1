@@ -265,7 +265,28 @@ ls -la
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 ~ % pwd
+/Users/tangled01257696
+tangled01257696@c5r4s1 ~ % ls -la
+total 8
+drwxr-x---+ 18 tangled01257696  tangled01257696   576 Apr 24 19:07 .
+drwxr-xr-x   8 root             admin             256 Apr 24 18:38 ..
+-r--------   1 tangled01257696  tangled01257696     7 Apr 24 18:38 .CFUserTextEncoding
+drwx------+  2 tangled01257696  tangled01257696    64 Apr 24 18:39 .Trash
+drwxr-xr-x   5 tangled01257696  tangled01257696   160 Apr 24 18:39 .docker
+drwxr-xr-x  10 tangled01257696  tangled01257696   320 Apr 24 18:39 .orbstack
+drwxr-xr-x   3 tangled01257696  tangled01257696    96 Apr 24 18:39 .ssh
+drwxr-xr-x   5 tangled01257696  tangled01257696   160 Apr 24 18:42 .vscode
+drwx------   3 tangled01257696  tangled01257696    96 Apr 24 19:07 .zsh_sessions
+drwx------+  3 tangled01257696  tangled01257696    96 Apr 24 18:38 Desktop
+drwx------+  4 tangled01257696  tangled01257696   128 Apr 24 18:46 Documents
+drwx------+ 13 tangled01257696  tangled01257696   416 Apr 24 18:48 Downloads
+drwx------@ 80 tangled01257696  tangled01257696  2560 Apr 24 18:54 Library
+drwx------   3 tangled01257696  tangled01257696    96 Apr 24 18:38 Movies
+drwx------+  3 tangled01257696  tangled01257696    96 Apr 24 18:38 Music
+drwx------   4 tangled01257696  tangled01257696   160 Apr 24 18:39 OrbStack
+drwx------+  4 tangled01257696  tangled01257696   128 Apr 24 18:39 Pictures
+drwxr-xr-x+  4 tangled01257696  tangled01257696   128 Apr 24 18:38 Public
 ```
 
 - `pwd`는 현재 작업 디렉토리의 절대 경로를 보여준다.
@@ -280,7 +301,11 @@ pwd
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 ~ % mkdir -p ~/dev-workstation-practice
+tangled01257696@c5r4s1 ~ % cd ~/dev-workstation-practice
+tangled01257696@c5r4s1 dev-workstation-practice % pwd
+/Users/tangled01257696/dev-workstation-practice
+tangled01257696@c5r4s1 dev-workstation-practice % 
 ```
 
 - `mkdir -p`를 사용하면 중간 디렉토리가 없어도 한 번에 생성할 수 있다.
@@ -295,7 +320,12 @@ cat memo.txt
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % touch memo.txt
+tangled01257696@c5r4s1 dev-workstation-practice % cat memo.txt
+tangled01257696@c5r4s1 dev-workstation-practice % echo "hello workstation" > memo.txt
+tangled01257696@c5r4s1 dev-workstation-practice % cat memo.txt
+hello workstation
+tangled01257696@c5r4s1 dev-workstation-practice % 
 ```
 
 - `touch`로 빈 파일 생성, `echo ... >` 로 내용 기록, `cat`으로 내용 확인.
@@ -309,7 +339,12 @@ ls
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % cp memo.txt copy.txt
+tangled01257696@c5r4s1 dev-workstation-practice % mv copy.txt renamed.txt
+tangled01257696@c5r4s1 dev-workstation-practice % ls
+memo.txt	renamed.txt
+
+
 ```
 
 - `cp`는 복사, `mv`는 이동 또는 이름 변경에 사용된다.
@@ -325,7 +360,14 @@ ls
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % mkdir sample-dir
+tangled01257696@c5r4s1 dev-workstation-practice % mv renamed.txt sample-dir
+tangled01257696@c5r4s1 dev-workstation-practice % ls sample-dir
+renamed.txt
+tangled01257696@c5r4s1 dev-workstation-practice % rm -rf sample-dir
+tangled01257696@c5r4s1 dev-workstation-practice % ls
+memo.txt
+
 ```
 
 - `rm -rf`는 디렉토리와 내부 내용을 함께 삭제하므로 주의해서 사용해야 한다.
@@ -359,7 +401,17 @@ ls -l script.sh
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % echo 'echo hello' > script.sh
+tangled01257696@c5r4s1 dev-workstation-practice % ls -l script.sh
+-rw-r--r--  1 tangled01257696  tangled01257696  11 Apr 24 19:17 script.sh
+tangled01257696@c5r4s1 dev-workstation-practice % ./script.sh
+zsh: permission denied: ./script.sh
+tangled01257696@c5r4s1 dev-workstation-practice % chmod 744 script.sh
+tangled01257696@c5r4s1 dev-workstation-practice % ls -l script.sh
+-rwxr--r--  1 tangled01257696  tangled01257696  11 Apr 24 19:17 script.sh
+tangled01257696@c5r4s1 dev-workstation-practice % ./script.sh
+hello
+
 ```
 
 - 파일에서 `x`는 실행 가능 여부를 의미한다.
@@ -376,7 +428,16 @@ cd permission-dir   # 소유자만 x 권한이므로 다른 사용자는 cd 실�
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % mkdir permission-dir
+tangled01257696@c5r4s1 dev-workstation-practice % touch permission-dir/test.txt
+tangled01257696@c5r4s1 dev-workstation-practice % ls -ld permission-dir
+drwxr-xr-x  3 tangled01257696  tangled01257696  96 Apr 24 19:18 permission-dir
+tangled01257696@c5r4s1 dev-workstation-practice % chmod 655 permission-dir
+tangled01257696@c5r4s1 dev-workstation-practice % cd permissopn-dir
+cd: no such file or directory: permissopn-dir
+tangled01257696@c5r4s1 dev-workstation-practice % cd permission-dir
+cd: permission denied: permission-dir
+tangled01257696@c5r4s1 dev-workstation-practice % 
 ```
 
 - 디렉토리에서 `x`는 실행이 아니라 해당 디렉토리 **안으로 들어갈 수 있는지** 여부다.
@@ -421,7 +482,109 @@ docker context ls
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker --version
+Docker version 28.5.2, build ecc6942
+tangled01257696@c5r4s1 dev-workstation-practice % docker info
+Client:
+ Version:    28.5.2
+ Context:    orbstack
+ Debug Mode: false
+ Plugins:
+  buildx: Docker Buildx (Docker Inc.)
+    Version:  v0.29.1
+    Path:     /Users/tangled01257696/.docker/cli-plugins/docker-buildx
+  compose: Docker Compose (Docker Inc.)
+    Version:  v2.40.3
+    Path:     /Users/tangled01257696/.docker/cli-plugins/docker-compose
+
+Server:
+ Containers: 0
+  Running: 0
+  Paused: 0
+  Stopped: 0
+ Images: 0
+ Server Version: 28.5.2
+ Storage Driver: overlay2
+  Backing Filesystem: btrfs
+  Supports d_type: true
+  Using metacopy: false
+  Native Overlay Diff: true
+  userxattr: false
+ Logging Driver: json-file
+ Cgroup Driver: cgroupfs
+ Cgroup Version: 2
+ Plugins:
+  Volume: local
+  Network: bridge host ipvlan macvlan null overlay
+  Log: awslogs fluentd gcplogs gelf journald json-file local splunk syslog
+ CDI spec directories:
+  /etc/cdi
+  /var/run/cdi
+ Swarm: inactive
+ Runtimes: io.containerd.runc.v2 runc
+ Default Runtime: runc
+ Init Binary: docker-init
+ containerd version: 1c4457e00facac03ce1d75f7b6777a7a851e5c41
+ runc version: d842d7719497cc3b774fd71620278ac9e17710e0
+ init version: de40ad0
+ Security Options:
+  seccomp
+   Profile: builtin
+  cgroupns
+ Kernel Version: 6.17.8-orbstack-00308-g8f9c941121b1
+ Operating System: OrbStack
+ OSType: linux
+ Architecture: x86_64
+ CPUs: 6
+ Total Memory: 15.67GiB
+ Name: orbstack
+ ID: 30dabf87-4a8d-4e7e-8b58-b44d7bb76137
+ Docker Root Dir: /var/lib/docker
+ Debug Mode: false
+ Experimental: false
+ Insecure Registries:
+  ::1/128
+  127.0.0.0/8
+ Live Restore Enabled: false
+ Product License: Community Engine
+ Default Address Pools:
+   Base: 192.168.97.0/24, Size: 24
+   Base: 192.168.107.0/24, Size: 24
+   Base: 192.168.117.0/24, Size: 24
+   Base: 192.168.147.0/24, Size: 24
+   Base: 192.168.148.0/24, Size: 24
+   Base: 192.168.155.0/24, Size: 24
+   Base: 192.168.156.0/24, Size: 24
+   Base: 192.168.158.0/24, Size: 24
+   Base: 192.168.163.0/24, Size: 24
+   Base: 192.168.164.0/24, Size: 24
+   Base: 192.168.165.0/24, Size: 24
+   Base: 192.168.166.0/24, Size: 24
+   Base: 192.168.167.0/24, Size: 24
+   Base: 192.168.171.0/24, Size: 24
+   Base: 192.168.172.0/24, Size: 24
+   Base: 192.168.181.0/24, Size: 24
+   Base: 192.168.183.0/24, Size: 24
+   Base: 192.168.186.0/24, Size: 24
+   Base: 192.168.207.0/24, Size: 24
+   Base: 192.168.214.0/24, Size: 24
+   Base: 192.168.215.0/24, Size: 24
+   Base: 192.168.216.0/24, Size: 24
+   Base: 192.168.223.0/24, Size: 24
+   Base: 192.168.227.0/24, Size: 24
+   Base: 192.168.228.0/24, Size: 24
+   Base: 192.168.229.0/24, Size: 24
+   Base: 192.168.237.0/24, Size: 24
+   Base: 192.168.239.0/24, Size: 24
+   Base: 192.168.242.0/24, Size: 24
+   Base: 192.168.247.0/24, Size: 24
+   Base: fd07:b51a:cc66:d000::/56, Size: 64
+
+WARNING: DOCKER_INSECURE_NO_IPTABLES_RAW is set
+tangled01257696@c5r4s1 dev-workstation-practice % docker context ls
+NAME         DESCRIPTION                               DOCKER ENDPOINT                                           ERROR
+default      Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                               
+orbstack *   OrbStack                                  unix:///Users/tangled01257696/.orbstack/run/docker.sock   
 ```
 
 - `docker --version`: CLI 설치 및 버전 확인
@@ -440,7 +603,27 @@ docker images
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker context ls
+NAME         DESCRIPTION                               DOCKER ENDPOINT                                           ERROR
+default      Current DOCKER_HOST based configuration   unix:///var/run/docker.sock                               
+orbstack *   OrbStack                                  unix:///Users/tangled01257696/.orbstack/run/docker.sock   
+tangled01257696@c5r4s1 dev-workstation-practice % docker pull nginx:latest
+latest: Pulling from library/nginx
+3531af2bc2a9: Pull complete 
+ce776bbcda0d: Pull complete 
+85c66128325a: Pull complete 
+4677c2a9a3d4: Pull complete 
+ff048f1f2159: Pull complete 
+677c63196868: Pull complete 
+801a1ad15b4e: Pull complete 
+Digest: sha256:6e23479198b998e5e25921dff8455837c7636a67111a04a635cf1bb363d199dc
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+tangled01257696@c5r4s1 dev-workstation-practice % docker images
+REPOSITORY   TAG       IMAGE ID       CREATED      SIZE
+nginx        latest    6c3a6ea6608c   2 days ago   161MB
+tangled01257696@c5r4s1 dev-workstation-practice % 
+
 ```
 
 ### 8-2. 컨테이너 실행 / 중지 / 목록 확인
@@ -453,7 +636,18 @@ docker ps -a
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d --name web-test1 -p 8080:80 nginx
+e99b26bcc8fd2509e83c8cc2a236fef386bf877a69cc1faaaafe235939c4a4e9
+tangled01257696@c5r4s1 dev-workstation-practice % docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+e99b26bcc8fd   nginx     "/docker-entrypoint.…"   5 seconds ago   Up 4 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   web-test1
+tangled01257696@c5r4s1 dev-workstation-practice % docker stop web-test1
+web-test1
+tangled01257696@c5r4s1 dev-workstation-practice % docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                     PORTS     NAMES
+e99b26bcc8fd   nginx     "/docker-entrypoint.…"   17 seconds ago   Exited (0) 4 seconds ago             web-test1
+tangled01257696@c5r4s1 dev-workstation-practice % 
+
 ```
 
 - `docker ps`: 실행 중인 컨테이너만
@@ -467,7 +661,65 @@ docker stats --no-stream
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker logs web-test1
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+/docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
+10-listen-on-ipv6-by-default.sh: info: Getting the checksum of /etc/nginx/conf.d/default.conf
+10-listen-on-ipv6-by-default.sh: info: Enabled listen on IPv6 in /etc/nginx/conf.d/default.conf
+/docker-entrypoint.sh: Sourcing /docker-entrypoint.d/15-local-resolvers.envsh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/20-envsubst-on-templates.sh
+/docker-entrypoint.sh: Launching /docker-entrypoint.d/30-tune-worker-processes.sh
+/docker-entrypoint.sh: Configuration complete; ready for start up
+2026/04/24 10:21:33 [notice] 1#1: using the "epoll" event method
+2026/04/24 10:21:33 [notice] 1#1: nginx/1.29.8
+2026/04/24 10:21:33 [notice] 1#1: built by gcc 14.2.0 (Debian 14.2.0-19) 
+2026/04/24 10:21:33 [notice] 1#1: OS: Linux 6.17.8-orbstack-00308-g8f9c941121b1
+2026/04/24 10:21:33 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 20480:1048576
+2026/04/24 10:21:33 [notice] 1#1: start worker processes
+2026/04/24 10:21:33 [notice] 1#1: start worker process 29
+2026/04/24 10:21:33 [notice] 1#1: start worker process 30
+2026/04/24 10:21:33 [notice] 1#1: start worker process 31
+2026/04/24 10:21:33 [notice] 1#1: start worker process 32
+2026/04/24 10:21:33 [notice] 1#1: start worker process 33
+2026/04/24 10:21:33 [notice] 1#1: start worker process 34
+2026/04/24 10:21:45 [notice] 1#1: signal 3 (SIGQUIT) received, shutting down
+2026/04/24 10:21:45 [notice] 29#29: gracefully shutting down
+2026/04/24 10:21:45 [notice] 29#29: exiting
+2026/04/24 10:21:45 [notice] 29#29: exit
+2026/04/24 10:21:45 [notice] 32#32: gracefully shutting down
+2026/04/24 10:21:45 [notice] 33#33: gracefully shutting down
+2026/04/24 10:21:45 [notice] 32#32: exiting
+2026/04/24 10:21:45 [notice] 33#33: exiting
+2026/04/24 10:21:45 [notice] 30#30: gracefully shutting down
+2026/04/24 10:21:45 [notice] 30#30: exiting
+2026/04/24 10:21:45 [notice] 33#33: exit
+2026/04/24 10:21:45 [notice] 32#32: exit
+2026/04/24 10:21:45 [notice] 31#31: gracefully shutting down
+2026/04/24 10:21:45 [notice] 30#30: exit
+2026/04/24 10:21:45 [notice] 31#31: exiting
+2026/04/24 10:21:45 [notice] 31#31: exit
+2026/04/24 10:21:45 [notice] 34#34: gracefully shutting down
+2026/04/24 10:21:45 [notice] 34#34: exiting
+2026/04/24 10:21:45 [notice] 34#34: exit
+2026/04/24 10:21:45 [notice] 1#1: signal 17 (SIGCHLD) received from 33
+2026/04/24 10:21:45 [notice] 1#1: worker process 32 exited with code 0
+2026/04/24 10:21:45 [notice] 1#1: worker process 33 exited with code 0
+2026/04/24 10:21:45 [notice] 1#1: signal 29 (SIGIO) received
+2026/04/24 10:21:45 [notice] 1#1: signal 17 (SIGCHLD) received from 32
+2026/04/24 10:21:45 [notice] 1#1: signal 17 (SIGCHLD) received from 29
+2026/04/24 10:21:45 [notice] 1#1: worker process 29 exited with code 0
+2026/04/24 10:21:45 [notice] 1#1: worker process 30 exited with code 0
+2026/04/24 10:21:45 [notice] 1#1: signal 29 (SIGIO) received
+2026/04/24 10:21:45 [notice] 1#1: signal 17 (SIGCHLD) received from 34
+2026/04/24 10:21:45 [notice] 1#1: worker process 34 exited with code 0
+2026/04/24 10:21:45 [notice] 1#1: signal 29 (SIGIO) received
+2026/04/24 10:21:45 [notice] 1#1: signal 17 (SIGCHLD) received from 31
+2026/04/24 10:21:45 [notice] 1#1: worker process 31 exited with code 0
+2026/04/24 10:21:45 [notice] 1#1: exit
+tangled01257696@c5r4s1 dev-workstation-practice % docker stats --no-stream
+CONTAINER ID   NAME      CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK I/O   PIDS
+
 ```
 
 - `docker logs`: 컨테이너 실행 이력 로그 확인
@@ -494,7 +746,36 @@ docker run hello-world
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker run hello-world
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+4f55086f7dd0: Pull complete 
+Digest: sha256:f9078146db2e05e794366b1bfe584a14ea6317f44027d10ef7dad65279026885
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading.
+ 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:
+ https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+
+tangled01257696@c5r4s1 dev-workstation-practice % 
+
 ```
 
 `hello-world`는 Docker가 이미지를 내려받고, 컨테이너를 만들고, 실행 결과를 출력하는 **전체 흐름이 정상인지** 확인하는 기본 테스트다.
@@ -516,8 +797,20 @@ pwd
 exit
 ```
 
-```
-[실제 출력 붙여넣기]
+```tangled01257696@c5r4s1 dev-workstation-practice % docker run -it ubuntu bash
+root@8ef3de62a16a:/# ls
+bin   dev  home  lib64  mnt  proc  run   srv  tmp  var
+boot  etc  lib   media  opt  root  sbin  sys  usr
+root@8ef3de62a16a:/# touch 
+touch: missing file operand
+Try 'touch --help' for more information.
+root@8ef3de62a16a:/# touch test.txt
+root@8ef3de62a16a:/# echo "hello" > test.txt
+root@8ef3de62a16a:/# pwd
+/
+root@8ef3de62a16a:/# exit
+exit
+
 ```
 
 - `-it` 옵션으로 컨테이너 내부 쉘과 상호작용할 수 있다.
@@ -587,7 +880,46 @@ docker run -d -p 8080:80 --name my-web-app my-web
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker build -t my-web .
+[+] Building 1.9s (7/7) FINISHED                                docker:orbstack
+ => [internal] load build definition from Dockerfile                       0.2s
+ => => transferring dockerfile: 108B                                       0.0s
+ => [internal] load metadata for docker.io/library/nginx:latest            0.0s
+ => [internal] load .dockerignore                                          0.1s
+ => => transferring context: 2B                                            0.0s
+ => [internal] load build context                                          0.4s
+ => => transferring context: 327B                                          0.0s
+ => [1/2] FROM docker.io/library/nginx:latest                              0.9s
+ => [2/2] COPY app/index.html /usr/share/nginx/html/index.html             0.3s
+ => exporting to image                                                     0.2s
+ => => exporting layers                                                    0.1s
+ => => writing image sha256:55114bdbb0f480c3c19d879af079742484f839d81410b  0.0s
+ => => naming to docker.io/library/my-web                                  0.0s
+tangled01257696@c5r4s1 dev-workstation-practice % docker images
+REPOSITORY    TAG       IMAGE ID       CREATED          SIZE
+my-web        latest    55114bdbb0f4   10 seconds ago   161MB
+nginx         latest    6c3a6ea6608c   2 days ago       161MB
+ubuntu        latest    0b1ebe5dd426   2 weeks ago      78.1MB
+hello-world   latest    e2ac70e7319a   4 weeks ago      10.1kB
+tangled01257696@c5r4s1 dev-workstation-practice % docker rm -f my-web-app 2>/dev/null
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d -p 8080:80 --name my-web-app my-web
+ede51ac1e22e3f6d04ea1be21846317ed2c3d62ca750e6c2024c74b35e9064bc
+tangled01257696@c5r4s1 dev-workstation-practice % docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS         PORTS                                     NAMES
+ede51ac1e22e   my-web    "/docker-entrypoint.…"   7 seconds ago   Up 6 seconds   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-web-app
+tangled01257696@c5r4s1 dev-workstation-practice % curl http://localhost:8080
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission 1 Custom Web</title>
+</head>
+<body>
+  <h1>기존 Docker 이미지 기반 커스텀 웹 서버</h1>
+  <p>macOS + OrbStack 환경에서 실행한 결과다.</p>
+</body>
+</html>
+tangled01257696@c5r4s1 dev-workstation-practice % 
 ```
 
 ### 10-5. 포트 매핑 접속 결과
@@ -597,7 +929,7 @@ curl http://localhost:8080
 ```
 
 ```
-[실제 출력 붙여넣기]
+위(10-4) 박스 내의 결과 확인
 ```
 
 ![커스텀 이미지 실행 화면](screenshots/07-port-8080-browser.png)
@@ -629,7 +961,24 @@ curl http://localhost:8081
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d -p 8081:80 \
+  --name bind-test \
+  -v "$(pwd)/app/index.html:/usr/share/nginx/html/index.html" \
+  my-web
+6291493befb3cb11c403ae96af525c6238419979efda15271f67266d9db822c7
+tangled01257696@c5r4s1 dev-workstation-practice % curl http://localhost:8081
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Mission 1 Custom Web</title>
+</head>
+<body>
+  <h1>기존 Docker 이미지 기반 커스텀 웹 서버</h1>
+  <p>macOS + OrbStack 환경에서 실행한 결과다.</p>
+</body>
+</html>
+tangled01257696@c5r4s1 dev-workstation-practice % 
 ```
 
 ![바인드 마운트 변경 전](screenshots/08-bind-mount-before.png)
@@ -642,7 +991,11 @@ curl http://localhost:8081
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % echo "bind mount success" > app/index.html
+tangled01257696@c5r4s1 dev-workstation-practice % curl http://localhost:8081
+bind mount success
+tangled01257696@c5r4s1 dev-workstation-practice % 
+
 ```
 
 ![바인드 마운트 변경 후](screenshots/09-bind-mount-after.png)
@@ -667,7 +1020,13 @@ docker exec volume-test1 cat /data/test.txt
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker volume create my-data
+my-data
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d --name volume-test1 -v my-data:/data nginx
+01e546fb82285ba6fb6083b4f06369aeb71a75ccbe37a038f22454d1da88536d
+tangled01257696@c5r4s1 dev-workstation-practice % docker exec volume-test1 sh -c "echo 'volume data' > /data/test.txt"
+tangled01257696@c5r4s1 dev-workstation-practice % docker exec volume-test1 cat /data/test.txt
+volume data
 ```
 
 ![볼륨 데이터 생성](screenshots/10-volume-before-delete.png)
@@ -682,7 +1041,16 @@ docker exec volume-test2 cat /data/test.txt
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % docker stop volume-test1
+volume-test1
+tangled01257696@c5r4s1 dev-workstation-practice % docker rm volume-test1
+volume-test1
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d --name volume-test2 -v my-data:/data nginx
+5381f944f488b6fd9c4be8bcd0b1082f78ac5ca1278a2001a0f5dbbea00f599e
+tangled01257696@c5r4s1 dev-workstation-practice % docker exec volume-test2 cat /data/test.txt
+volume data
+tangled01257696@c5r4s1 dev-workstation-practice % 
+
 ```
 
 ![볼륨 영속성 확인](screenshots/11-volume-after-recreate.png)
@@ -715,7 +1083,15 @@ git config --list
 ```
 
 ```
-[실제 출력 붙여넣기]
+tangled01257696@c5r4s1 dev-workstation-practice % git config --global init.defaultBranch main
+tangled01257696@c5r4s1 dev-workstation-practice % git config --global user.name "김현서"    
+tangled01257696@c5r4s1 dev-workstation-practice % git config --global user.email "tangled0125@gmail.com"
+tangled01257696@c5r4s1 dev-workstation-practice % git config --list
+credential.helper=osxkeychain
+init.defaultbranch=main
+user.name=김현서
+user.email=tangled0125@gmail.com
+tangled01257696@c5r4s1 dev-workstation-practice % 
 ```
 
 ### 12-2. 원격 저장소 연결 확인
