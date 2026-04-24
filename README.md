@@ -1101,7 +1101,7 @@ git remote -v
 ```
 
 ```
-[실제 출력 붙여넣기]
+아래의 로그 확인.
 ```
 
 ### 12-3. Git과 GitHub 차이
@@ -1115,9 +1115,56 @@ git remote -v
 
 ### 12-4. 연동 증거
 
-![Git 설정 확인](screenshots/12-git-config.png)
+tangled01257696@c5r4s1 dev-workstation-practice % git add .
+tangled01257696@c5r4s1 dev-workstation-practice % git status
+On branch main
 
-![VSCode GitHub 연동](screenshots/13-vscode-github.png)
+No commits yet
+
+Changes to be committed:
+  (use "git rm --cached <file>..." to unstage)
+	new file:   Dockerfile
+	new file:   app/index.html
+	new file:   memo.txt
+	new file:   permission-dir/test.txt
+	new file:   script.sh
+
+tangled01257696@c5r4s1 dev-workstation-practice % git commit -m "feat: add dev workstation practice files"
+[main (root-commit) bad03b5] feat: add dev workstation practice files
+ 5 files changed, 5 insertions(+)
+ create mode 100644 Dockerfile
+ create mode 100644 app/index.html
+ create mode 100644 memo.txt
+ create mode 100644 permission-dir/test.txt
+ create mode 100755 script.sh
+tangled01257696@c5r4s1 dev-workstation-practice % git branch -M main
+tangled01257696@c5r4s1 dev-workstation-practice % git remote -v
+origin	https://github.com/RIIZE0904/codyssey_m1 (fetch)
+origin	https://github.com/RIIZE0904/codyssey_m1 (push)
+tangled01257696@c5r4s1 dev-workstation-practice % git push -u origin main
+
+
+tangled01257696@c5r4s1 dev-workstation-practice % git config --global user.name "hs"
+tangled01257696@c5r4s1 dev-workstation-practice % git config --global user.email "tangled0125@gmail.com"
+tangled01257696@c5r4s1 dev-workstation-practice % git config --list
+credential.helper=osxkeychain
+init.defaultbranch=main
+user.name=hs
+user.email=tangled0125@gmail.com
+core.repositoryformatversion=0
+core.filemode=true
+core.bare=false
+core.logallrefupdates=true
+core.ignorecase=true
+core.precomposeunicode=true
+remote.origin.url=https://github.com/RIIZE0904/codyssey_m1
+remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+tangled01257696@c5r4s1 dev-workstation-practice % 
+
+tangled01257696@c5r4s1 dev-workstation-practice % git remote -v
+origin	https://github.com/RIIZE0904/codyssey_m1 (fetch)
+origin	https://github.com/RIIZE0904/codyssey_m1 (push)
+tangled01257696@c5r4s1 dev-workstation-practice % 
 
 ---
 
@@ -1136,6 +1183,18 @@ Ubuntu 이미지는 기본적으로 셸을 실행하지만, 백그라운드 모�
 ```bash
 docker ps -a
 # STATUS가 Exited (0)으로 표시되어 있는 것 확인
+
+tangled01257696@c5r4s1 dev-workstation-practice % docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED             STATUS                   PORTS                                     NAMES
+5381f944f488   nginx         "/docker-entrypoint.…"   About an hour ago   Up About an hour         80/tcp                                    volume-test2
+6291493befb3   my-web        "/docker-entrypoint.…"   About an hour ago   Up About an hour         0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   bind-test
+ede51ac1e22e   my-web        "/docker-entrypoint.…"   About an hour ago   Up About an hour         0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-web-app
+8ef3de62a16a   ubuntu        "bash"                   2 hours ago         Exited (0) 2 hours ago                                             sharp_mahavira
+781c615752a0   ubuntu        "bahs"                   2 hours ago         Created                                                            agitated_ishizaka
+a09a89284c9e   hello-world   "/hello"                 2 hours ago         Exited (0) 2 hours ago                                             stoic_morse
+e99b26bcc8fd   nginx         "/docker-entrypoint.…"   2 hours ago         Exited (0) 2 hours ago                                             web-test1
+tangled01257696@c5r4s1 dev-workstation-practice % 
+
 ```
 
 **해결**
@@ -1144,6 +1203,21 @@ docker ps -a
 docker run -d -it --name ubuntu-test1 ubuntu
 docker ps -a
 # STATUS가 Up 상태로 유지되는 것 확인
+
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d -it --name ubuntu-test1 ubuntu
+0db43dc72390300c0406d98285f52b7097fb042fee8a6a2553084d432166f873
+tangled01257696@c5r4s1 dev-workstation-practice %
+
+tangled01257696@c5r4s1 dev-workstation-practice % docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED             STATUS                   PORTS                                     NAMES
+0db43dc72390   ubuntu        "/bin/bash"              22 seconds ago      Up 21 seconds                                                      ubuntu-test1
+5381f944f488   nginx         "/docker-entrypoint.…"   About an hour ago   Up About an hour         80/tcp                                    volume-test2
+6291493befb3   my-web        "/docker-entrypoint.…"   About an hour ago   Up About an hour         0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   bind-test
+ede51ac1e22e   my-web        "/docker-entrypoint.…"   About an hour ago   Up About an hour         0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-web-app
+8ef3de62a16a   ubuntu        "bash"                   2 hours ago         Exited (0) 2 hours ago                                             sharp_mahavira
+781c615752a0   ubuntu        "bahs"                   2 hours ago         Created                                                            agitated_ishizaka
+a09a89284c9e   hello-world   "/hello"                 2 hours ago         Exited (0) 2 hours ago                                             stoic_morse
+e99b26bcc8fd   nginx         "/docker-entrypoint.…"   2 hours ago         Exited (0) 2 hours ago                                             web-test1
 ```
 
 **배운 점**  
@@ -1165,6 +1239,17 @@ docker ps -a
 ```bash
 docker ps -a
 # 실패한 컨테이너가 Created 또는 Exited 상태로 남아있는 것 확인
+
+tangled01257696@c5r4s1 dev-workstation-practice % docker ps -a
+CONTAINER ID   IMAGE         COMMAND                  CREATED             STATUS                   PORTS                                     NAMES
+0db43dc72390   ubuntu        "/bin/bash"              45 seconds ago      Up 44 seconds                                                      ubuntu-test1
+5381f944f488   nginx         "/docker-entrypoint.…"   About an hour ago   Up About an hour         80/tcp                                    volume-test2
+6291493befb3   my-web        "/docker-entrypoint.…"   About an hour ago   Up About an hour         0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   bind-test
+ede51ac1e22e   my-web        "/docker-entrypoint.…"   About an hour ago   Up About an hour         0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-web-app
+8ef3de62a16a   ubuntu        "bash"                   2 hours ago         Exited (0) 2 hours ago                                             sharp_mahavira
+781c615752a0   ubuntu        "bahs"                   2 hours ago         Created                                                            agitated_ishizaka
+a09a89284c9e   hello-world   "/hello"                 2 hours ago         Exited (0) 2 hours ago                                             stoic_morse
+e99b26bcc8fd   nginx         "/docker-entrypoint.…"   2 hours ago         Exited (0) 2 hours ago                                             web-test1
 ```
 
 **해결**
@@ -1175,6 +1260,30 @@ docker run -d -p 8081:80 --name bind-test \
   -v "$(pwd)/app/index.html:/usr/share/nginx/html/index.html" \
   my-web
 ```
+
+tangled01257696@c5r4s1 dev-workstation-practice % docker rm bind-test
+Error response from daemon: cannot remove container "bind-test": container is running: stop the container before removing or force remove
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d -p 8081:80 --name bind-test \
+  -v "$(pwd)/app/index.html:/usr/share/nginx/html/index.html" \
+  my-web
+docker: Error response from daemon: Conflict. The container name "/bind-test" is already in use by container "6291493befb3cb11c403ae96af525c6238419979efda15271f67266d9db822c7". You have to remove (or rename) that container to be able to reuse that name.
+
+Run 'docker run --help' for more information
+tangled01257696@c5r4s1 dev-workstation-practice % docker rm -f bind-test
+bind-test
+tangled01257696@c5r4s1 dev-workstation-practice % docker run -d -p 8081:80 --name bind-test \
+  -v "$(pwd)/app/index.html:/usr/share/nginx/html/index.html" \
+  my-web
+268f90ab33c77a8719cfa2aa9cc59564284066aaac70bc1f1a07df70f0bec3c8
+tangled01257696@c5r4s1 dev-workstation-practice % docker ps
+CONTAINER ID   IMAGE     COMMAND                  CREATED             STATUS             PORTS                                     NAMES
+268f90ab33c7   my-web    "/docker-entrypoint.…"   6 seconds ago       Up 5 seconds       0.0.0.0:8081->80/tcp, [::]:8081->80/tcp   bind-test
+0db43dc72390   ubuntu    "/bin/bash"              2 minutes ago       Up 2 minutes                                                 ubuntu-test1
+5381f944f488   nginx     "/docker-entrypoint.…"   About an hour ago   Up About an hour   80/tcp                                    volume-test2
+ede51ac1e22e   my-web    "/docker-entrypoint.…"   About an hour ago   Up About an hour   0.0.0.0:8080->80/tcp, [::]:8080->80/tcp   my-web-app
+tangled01257696@c5r4s1 dev-workstation-practice % curl http://localhost:8081
+bind mount success
+
 
 **배운 점**  
 `docker run`이 실패한 뒤에도 컨테이너 껍데기가 남을 수 있다.  
