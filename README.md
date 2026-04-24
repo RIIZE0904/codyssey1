@@ -29,13 +29,13 @@
 
 | 항목 | 내용 |
 |------|------|
-| OS | macOS [버전 입력] |
+| OS | macOS [15.7.4] |
 | Shell | zsh |
 | Terminal | macOS Terminal / iTerm2 |
 | Docker Runtime | OrbStack |
-| Docker Version | [실제 버전 입력] |
-| Git Version | [실제 버전 입력] |
-| VSCode Version | [실제 버전 입력] |
+| Docker Version | 28.5.2 |
+| Git Version | 2.53.0 |
+| VSCode Version | 1.112.0 |
 
 **환경 확인 명령**
 
