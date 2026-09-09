@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>지환 생일 축하해</title>
+<style>
+  :root{
+    --pink:#ff6fa5;
+    --pink-dark:#e6528a;
+    --purple:#8b5cf6;
+    --yellow:#ffd166;
+    --mint:#06d6a0;
+    --bg:#fff5f8;
+    --ink:#3a2c33;
+  }
+  *{ box-sizing:border-box; }
+  html,body{
+    margin:0; padding:0; height:100%;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Apple SD Gothic Neo","Noto Sans KR",-apple-system,BlinkMacSystemFont,sans-serif;
+    overflow:hidden;
+  }
+  #app{ position:relative; width:100vw; height:100vh; }
+
+  .screen{
+    position:absolute; inset:0;
+    display:none;
+    align-items:center; justify-content:center;
+    flex-direction:column;
+    padding:24px;
+    text-align:center;
+  }
+  .screen.active{ display:flex; }
+
+  /* ---------- 배경 장식 ---------- */
+  .bg-deco{ position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0; }
+  .bg-deco span{
+    position:absolute; font-size:28px; opacity:.5;
+    animation: floaty 6s ease-in-out infinite;
+  }
+  @keyframes floaty{
+    0%,100%{ transform:translateY(0) rotate(0deg); }
+    50%{ transform:translateY(-18px) rotate(8deg); }
+  }
+
+  /* ---------- 봉투 화면 ---------- */
+  .envelope-hint{
+    margin-top:22px; font-size:15px; color:#8a6b76; letter-spacing:.02em;
+  }
+  .envelope{
+    position:relative;
+    width:280px; height:190px;
+    cursor:pointer;
+    z-index:1;
+    transition: transform .25s ease;
+  }
+  .envelope:hover{ transform: translateY(-4px) scale(1.02); }
+  .envelope-body{
+    position:absolute; left:0; right:0; bottom:0;
+    height:100%;
+    background: linear-gradient(180deg,#ffffff,#ffeef4);
+    border-radius:14px;
+    box-shadow: 0 18px 40px rgba(230,82,138,.25);
+    overflow:hidden;
+  }
+  .envelope-pocket{
+    position:absolute; left:0; right:0; bottom:0; height:100%;
+    clip-path: polygon(0% 100%, 50% 42%, 100% 100%);
+    background: linear-gradient(180deg,#ffe1ec,#ffc9dd);
+  }
+  .envelope-flap{
+    position:absolute; top:0; left:0; width:100%; height:0;
+    border-left:140px solid transparent;
+    border-right:140px solid transparent;
+    border-top:95px solid var(--pink);
+    transform-origin: top center;
+    transition: transform .7s cubic-bezier(.6,-0.3,.4,1.3);
+    z-index:3;
+  }
+  .envelope.open .envelope-flap{
+    transform: rotateX(180deg);
+  }
+  .seal{
+    position:absolute; top:52%; left:50%; transform:translate(-50%,-50%);
+    width:46px; height:46px; border-radius:50%;
+    background:var(--pink-dark);
+    display:flex; align-items:center; justify-content:center;
+    color:#fff; font-size:20px; box-shadow:0 4px 10px rgba(0,0,0,.2);
+    z-index:4;
+    transition: opacity .3s ease, transform .3s ease;
+  }
+  .envelope.open .seal{ opacity:0; transform:translate(-50%,-50%) scale(.4); }
+
+  h1.title{ font-size:22px; margin:0 0 6px; color:var(--pink-dark); }
+
+  /* ---------- 편지 화면 ---------- */
+  .letter-card{
+    position:relative;
+    z-index:1;
+    width:min(420px, 92vw);
+    background:#fffdf9;
+    border-radius:18px;
+    padding:36px 28px 28px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.12);
+    animation: riseUp .6s cubic-bezier(.2,.8,.3,1.2) both;
+  }
+  @keyframes riseUp{
+    from{ opacity:0; transform: translateY(60px) scale(.94); }
+    to{ opacity:1; transform: translateY(0) scale(1); }
+  }
+  .letter-to{ text-align:left; font-size:14px; color:#a98a95; margin-bottom:14px; }
+  .letter-body{ text-align:left; font-size:19px; line-height:1.7; margin-bottom:26px; }
+  .letter-body b{ color:var(--pink-dark); }
+
+  .btn-row{
+    display:flex; gap:12px; justify-content:center; flex-wrap:wrap;
+    position:relative;
+    min-height:52px;
+  }
+  button{ font-family:inherit; border:none; cursor:pointer; }
+
+  .btn-read{
+    padding:13px 22px;
+    background:var(--pink);
+    color:#fff;
+    font-size:15px; font-weight:600;
+    border-radius:999px;
+    box-shadow:0 8px 18px rgba(255,111,165,.4);
+    transition: transform .15s ease;
+  }
+  .btn-read:active{ transform:scale(.96); }
+
+  .btn-fake{
+    padding:13px 18px;
+    background:#fff;
+    color:var(--purple);
+    font-size:14px; font-weight:600;
+    border:2px solid var(--purple);
+    border-radius:999px;
+    white-space:nowrap;
+    opacity:0;
+    transform:translateY(6px);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+  .btn-fake.show{ opacity:1; transform:translateY(0); }
+  .btn-fake.chaos{ transition: left .85s cubic-bezier(.4,0,.2,1), top .85s cubic-bezier(.4,0,.2,1), transform .85s cubic-bezier(.4,0,.2,1); }
+
+  /* ---------- 결제창 (통지표) ---------- */
+  .paywall-card{
+    width:min(360px, 92vw);
+    background:#fff;
+    border-radius:20px;
+    padding:26px 24px 22px;
+    box-shadow:0 24px 60px rgba(0,0,0,.25);
+    z-index:1;
+    animation: popIn .45s cubic-bezier(.2,.9,.3,1.3) both;
+    transition: opacity .4s ease, transform .4s ease;
+  }
+  @keyframes popIn{
+    from{ opacity:0; transform:scale(.85); }
+    to{ opacity:1; transform:scale(1); }
+  }
+  .paywall-card.paid{ opacity:0; transform:scale(.9); pointer-events:none; }
+  .paywall-badge{
+    display:inline-block; background:#111; color:#fff; font-size:12px;
+    padding:4px 10px; border-radius:999px; margin-bottom:14px;
+  }
+  .paywall-card h2{ margin:0 0 6px; font-size:19px; }
+  .paywall-sub{ margin:0 0 20px; font-size:13px; color:#888; }
+
+  .plan-price{ font-size:40px; font-weight:800; margin:6px 0 18px; }
+  .plan-price .currency{ font-size:22px; vertical-align:top; margin-right:2px; }
+  .plan-price .per{ font-size:14px; font-weight:500; color:#999; }
+
+  .plan-features{ list-style:none; padding:0; margin:0 0 22px; text-align:left; }
+  .plan-features li{ font-size:14px; margin-bottom:10px; color:#333; }
+
+  .pay-btn{
+    width:100%; padding:14px;
+    background:#111; color:#fff;
+    font-size:15px; font-weight:700;
+    border-radius:12px;
+    transition: transform .15s ease, background .2s ease;
+  }
+  .pay-btn:hover{ background:#000; }
+  .pay-btn:active{ transform:scale(.97); }
+  .pay-btn.pulse{ animation: btnPulse .4s ease; }
+  @keyframes btnPulse{
+    0%{ transform:scale(1); }
+    40%{ transform:scale(1.08); }
+    100%{ transform:scale(1); }
+  }
+
+  .fine-print{ margin:14px 0 0; font-size:11px; color:#bbb; }
+
+  .reveal{
+    position:absolute; z-index:2;
+    text-align:center; padding:0 20px;
+  }
+  .reveal h1{
+    font-size:clamp(24px,6vw,40px);
+    color:var(--pink-dark);
+    animation: popIn .5s cubic-bezier(.2,.9,.3,1.3) both;
+  }
+
+  canvas#confetti{
+    position:fixed; inset:0; z-index:5; pointer-events:none;
+  }
+
+  @media (max-width:420px){
+    .envelope{ width:240px; height:170px; }
+    .envelope-flap{ border-left-width:120px; border-right-width:120px; border-top-width:85px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-deco">
+  <span style="left:8%; top:12%;">🎈</span>
+  <span style="left:82%; top:18%; animation-delay:1s;">🎉</span>
+  <span style="left:15%; top:78%; animation-delay:2s;">🎂</span>
+  <span style="left:88%; top:70%; animation-delay:1.5s;">✨</span>
+  <span style="left:50%; top:8%; animation-delay:.5s;">🎁</span>
+</div>
+
+<div id="app">
+
+  <!-- 1. 봉투 화면 -->
+  <section class="screen active" id="screen-envelope">
+    <h1 class="title">지환에게</h1>
+    <div class="envelope" id="envelope">
+      <div class="envelope-body">
+        <div class="envelope-pocket"></div>
+      </div>
+      <div class="envelope-flap"></div>
+      <div class="seal">💌</div>
+    </div>
+    <p class="envelope-hint">눌러서 열어보기</p>
+  </section>
+
+  <!-- 2. 편지 화면 -->
+  <section class="screen" id="screen-letter">
+    <div class="letter-card">
+      <div class="letter-to">지환씨에게,</div>
+      <div class="letter-body">생일 축하해요! 🎂<br><b>오늘 하루 행복하세요.</b></div>
+      <div class="btn-row" id="btn-row">
+        <button class="btn-read" id="btn-read">더 눌러서 읽기</button>
+        <button class="btn-fake" id="btn-fake" hidden>그거 눌러서 안열리는데~</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 결제(통지표) 화면 -->
+  <section class="screen" id="screen-paywall">
+    <div class="paywall-card" id="paywall-card">
+      <span class="paywall-badge">지환AI</span>
+      <h2>계속 읽으시겠어요?</h2>
+      <p class="paywall-sub">무료로 읽을 수 있는 횟수를 모두 사용했어요</p>
+      <div class="plan-price"><span class="currency">$</span>22<span class="per"> / 편지</span></div>
+      <ul class="plan-features">
+        <li>✅ 편지 한 통 더 읽기</li>
+        <li>✅ '눌러서 안열리는데' 버튼 무제한 구경</li>
+        <li>✅ 지환 전용, 광고 없는 생일</li>
+        <li>✅ 우선 축하 사용권 (뜻은 없음)</li>
+      </ul>
+      <button class="pay-btn" id="btn-pay">결제하기</button>
+      <p class="fine-print">이 결제는 가짜지만 생일은 진짜예요</p>
+    </div>
+    <div class="reveal" id="reveal" hidden>
+      <h1>🎉 지환아 생일 축하해!! 🎉</h1>
+    </div>
+  </section>
+
+</div>
+
+<canvas id="confetti"></canvas>
+
+<script>
+(function(){
+  const envelope = document.getElementById('envelope');
+  const screenEnvelope = document.getElementById('screen-envelope');
+  const screenLetter = document.getElementById('screen-letter');
+  const screenPaywall = document.getElementById('screen-paywall');
+  const btnRead = document.getElementById('btn-read');
+  const btnFake = document.getElementById('btn-fake');
+
+  // ---- 1. 봉투 열기 ----
+  let opened = false;
+  envelope.addEventListener('click', function(){
+    if (opened) return;
+    opened = true;
+    envelope.classList.add('open');
+    setTimeout(function(){
+      screenEnvelope.classList.remove('active');
+      screenLetter.classList.add('active');
+    }, 650);
+  });
+
+  // ---- 2. 더 읽기 / 안열리는데 버튼 ----
+  let readClicked = false;
+  btnRead.addEventListener('click', function(e){
+    e.preventDefault();
+    if (readClicked) return; // 이후로는 눌러도 아무 반응 없음
+    readClicked = true;
+    btnFake.hidden = false;
+    requestAnimationFrame(function(){ btnFake.classList.add('show'); });
+    setTimeout(startFakeButtonChaos, 400);
+  });
+  btnFake.addEventListener('click', function(e){
+    e.preventDefault(); // 눌러도 반응 없음
+  });
+
+  function startFakeButtonChaos(){
+    const rect = btnFake.getBoundingClientRect();
+    btnFake.style.position = 'fixed';
+    btnFake.style.left = rect.left + 'px';
+    btnFake.style.top = rect.top + 'px';
+    btnFake.style.margin = '0';
+    btnFake.style.zIndex = 50;
+
+    requestAnimationFrame(function(){
+      btnFake.classList.add('chaos');
+    });
+
+    let ticks = 0;
+    const maxTicks = 10;
+    const interval = setInterval(function(){
+      ticks++;
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const big = ticks % 2 === 1; // 커졌다가 작아졌다가 번갈아
+      const scale = big ? (2.6 + Math.random()*2.2) : (0.12 + Math.random()*0.18);
+      const w = 160 * scale, h = 50 * scale;
+      const x = Math.random() * Math.max(0, vw - w);
+      const y = Math.random() * Math.max(0, vh - h);
+
+      btnFake.style.left = x + 'px';
+      btnFake.style.top = y + 'px';
+      btnFake.style.transform = 'scale(' + scale + ')';
+
+      if (ticks >= maxTicks){
+        clearInterval(interval);
+        setTimeout(showPaywall, 900);
+      }
+    }, 950);
+  }
+
+  function showPaywall(){
+    screenLetter.classList.remove('active');
+    screenPaywall.classList.add('active');
+  }
+
+  // ---- 3. 결제하기 -> 진짜요? -> 감사합니다 -> 폭죽 ----
+  const btnPay = document.getElementById('btn-pay');
+  const paywallCard = document.getElementById('paywall-card');
+  const reveal = document.getElementById('reveal');
+  const payStages = ['결제하기', '진짜요?', '감사합니다 🙇‍♀️'];
+  let payStage = 0;
+
+  btnPay.addEventListener('click', function(){
+    payStage++;
+    if (payStage < payStages.length){
+      btnPay.textContent = payStages[payStage];
+      btnPay.classList.remove('pulse');
+      void btnPay.offsetWidth; // 애니메이션 재시작
+      btnPay.classList.add('pulse');
+      return;
+    }
+    // 마지막 단계: 진짜 폭죽
+    paywallCard.style.animation = 'none'; // 등장 애니메이션이 opacity를 붙잡고 있어서 해제
+    paywallCard.classList.add('paid');
+    reveal.hidden = false;
+    launchConfetti();
+  });
+
+  // ---- 폭죽(컨페티) ----
+  const canvas = document.getElementById('confetti');
+  const ctx = canvas.getContext('2d');
+  function resize(){
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const colors = ['#ff6fa5','#8b5cf6','#ffd166','#06d6a0','#4cc9f0'];
+  let particles = [];
+  let confettiRunning = false;
+
+  function launchConfetti(){
+    particles = [];
+    const originX = canvas.width / 2;
+    const originY = canvas.height / 2;
+    for (let i = 0; i < 220; i++){
+      const angle = Math.random() * Math.PI * 2;
+      const speed = 4 + Math.random() * 10;
+      particles.push({
+        x: originX, y: originY,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 4,
+        size: 4 + Math.random() * 5,
+        color: colors[Math.floor(Math.random()*colors.length)],
+        rotation: Math.random() * Math.PI,
+        spin: (Math.random() - 0.5) * 0.3,
+        life: 0,
+        maxLife: 90 + Math.random() * 40
+      });
+    }
+    if (!confettiRunning){
+      confettiRunning = true;
+      requestAnimationFrame(tick);
+    }
+  }
+
+  function tick(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    let alive = false;
+    for (const p of particles){
+      if (p.life > p.maxLife) continue;
+      alive = true;
+      p.vy += 0.18; // 중력
+      p.x += p.vx;
+      p.y += p.vy;
+      p.rotation += p.spin;
+      p.life++;
+
+      const fade = 1 - Math.max(0, (p.life - p.maxLife * 0.7) / (p.maxLife * 0.3));
+      ctx.save();
+      ctx.globalAlpha = Math.max(0, fade);
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size*0.6);
+      ctx.restore();
+    }
+    if (alive){
+      requestAnimationFrame(tick);
+    } else {
+      confettiRunning = false;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+  }
+})();
+</script>
+
+</body>
+</html>
